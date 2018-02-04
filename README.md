@@ -22,7 +22,7 @@ Go into the repository
 
 Install dependencies
 
-`$ pip -r requirements.txt`
+`$ pip install -r requirements.txt`
 
 Run the app
 
