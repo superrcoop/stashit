@@ -9,8 +9,8 @@ def page_not_found(error):
     return render_template('404.html'), 404
 
 @app.route("/")
-def hello():
-    return "Hello World!"
+def index():
+    return render_template('index.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
