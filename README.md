@@ -1,7 +1,5 @@
-<img src="/static/icons/LOGOICON.png" />    
-
+<img src="/static/icons/LOGOICON.png" />
 Safely secure henyting in your online Journal
-
 
 Getting Started !
 -------------------
