@@ -1,4 +1,4 @@
-<img src="/static/icons/LOGOICON.png" /> 
+<img src="app/static/icons/LOGOICON.png" /> 
 
 Description
 -------------------
