@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>StashIT</title>
+    <!-- Bootstrap -->
+    <link href="{{ url_for('static', filename='../static/css/bootstrap.min.css') }}" rel="stylesheet">
+    <!-- font-awsome -->
+    <link href="{{ url_for('static', filename='../static/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
+
+    <!-- simple-line-icons -->
+    <link href="{{ url_for('static', filename='../static/simple-line-icons/css/simple-line-icons.css') }}" rel="stylesheet">
+
+    <!-- font-awsome -->
+    <link href="{{ url_for('static', filename='../static/simple-line-icons/css/simple-line-icons.css') }}" rel="stylesheet">
+    
+    <!-- device-mockups -->
+    <link href="{{ url_for('static', filename='../static/device-mockups/device-mockups.min.css') }}" rel="stylesheet">
+    
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='../static/css/app.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='../static/css/new-age.css') }}">
+    {% block css %} {% endblock%}
+  </head>
+  <body>
+    <header>
+        {% include "header.html" %}
+    </header>
+    <main>
+        
+        {% block main %}{% endblock %}
+       
+    </main>
+    <footer>
+        
+        {% include "footer.html" %}  
+    </footer>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="{{ url_for('static', filename='../static/jquery/jquery.min.js') }}"></script>    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="{{ url_for('static', filename='../static/js/bootstrap.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='../static/js/new-age.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='../static/js/main.js') }}"></script>
+    <script src="{{ url_for('static', filename='../static/jquery/jquery-easing/jquery.easing.min.js') }}"></script>
+    {% block js %} {% endblock%}
+  </body>
+</html>
