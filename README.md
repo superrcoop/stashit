@@ -3,7 +3,7 @@
 Description
 -------------------
 
-Safely secure henyting in your online Journal
+Safely secure henyting in your online Journal.
 
 Getting Started !
 -------------------
