@@ -28,10 +28,6 @@ def signup():
 
 @app.route("/dashboard")
 def dashboard():
-    return render_template('dashboard.html')
-
-@app.route("/feed")
-def feed():
     return render_template('feed.html')
 
 @app.route("/")
