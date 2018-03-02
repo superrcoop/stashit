@@ -7,6 +7,8 @@ This file creates your application.
 
 from app import app
 from flask import render_template, request, redirect, url_for, flash
+from forms import reg_Form,loginForm
+
 
 
 @app.errorhandler(404)
@@ -29,6 +31,31 @@ def signup():
 @app.route("/dashboard")
 def dashboard():
     return render_template('feed.html')
+
+@app.route('/login', methods=['POST', 'GET'])
+def login():
+    error = None
+    form=loginForm()
+    if request.method == 'POST':
+        if request.form['username'] != app.config['USERNAME'] or request.form['password'] != app.config['PASSWORD']:
+            error = 'Invalid username or password'
+        else:
+            session['logged_in'] = True
+            
+            flash('You were logged in', 'success')
+            return redirect(url_for('dashboard'))
+    return render_template('index.html', error=error)
+
+
+@app.route('/logout')
+def logout():
+    session.pop('logged_in', None)
+    flash('You were logged out', 'success')
+    return redirect(url_for('index'))
+
+
+
+
 
 @app.route("/")
 def index():
