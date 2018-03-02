@@ -30,6 +30,10 @@ def signup():
 def dashboard():
     return render_template('dashboard.html')
 
+@app.route("/feed")
+def feed():
+    return render_template('feed.html')
+
 @app.route("/")
 def index():
     return render_template('index.html')
