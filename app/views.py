@@ -9,7 +9,7 @@ from app import app
 from flask import render_template, request, redirect, url_for, flash ,session ,abort
 from forms import reg_Form,loginForm
 from werkzeug.utils import secure_filename
-from controller import *
+from controllers import get_uploaded_images,flash_errors
 from werkzeug.datastructures import CombinedMultiDict
 
 @app.errorhandler(404)
@@ -37,7 +37,7 @@ def dashboard():
 def login():
     error = None
     form=loginForm()
-    if request.method == 'POST':
+    if form.validate_on_submit():
         if request.form['username'] != app.config['USERNAME'] or request.form['password'] != app.config['PASSWORD']:
             error = 'Invalid username or password'
         else:

@@ -1,5 +1,5 @@
-from wtforms import Form, StringField, PasswordField  , HiddenField
-from wtforms.validators import Required,Length, Email,EqualTo
+from wtforms import Form, StringField, PasswordField  , HiddenField,BooleanField
+from wtforms.validators import Required,Length, Email,EqualTo ,DataRequired
 from flask_wtf import FlaskForm , RecaptchaField
 from flask_wtf.file import FileField, FileAllowed, FileRequired
 
