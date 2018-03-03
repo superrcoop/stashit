@@ -1,5 +1,9 @@
 from wtforms import Form, StringField, PasswordField  , HiddenField
 from wtforms.validators import Required,Length, Email,EqualTo
+from flask_wtf import FlaskForm , RecaptchaField
+from flask_wtf.file import FileField, FileAllowed, FileRequired
+
+ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
 
 class loginForm(Form):
     name = StringField('Name', validators=[Length(min=4, max=25,message=('Name does not satisfy condition ( 4 < name.length <= 25 )')),Required('Please provide a name')])
@@ -12,3 +16,9 @@ class reg_Form(Form):
     password=password = PasswordField('Enter Password',validators=[DataRequired(),EqualTo('confirm', message='Incorrect Password')])
     conf_password=PasswordField('Repeat Password',validators=[Required('Re-enter password')])
     accept_tos = BooleanField('I accept the Terms&conditions', validators=[DataRequired()])
+
+class UploadForm(FlaskForm):
+    upload = FileField('Upload', validators=[
+        FileRequired(),
+        FileAllowed(ALLOWED_EXTENSIONS, 'Images only!')
+    ])
