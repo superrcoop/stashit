@@ -146,8 +146,8 @@ header.masthead {
   padding-bottom: 100px;
   color: white;
   background: url("../images/bg.jpg");
-  background: url("../images/bg.jpg"), -webkit-linear-gradient(to left, #7b4397, #dc2430);
-  background: url("../images/bg.jpg"), linear-gradient(to left, #7b4397, #dc2430);
+  background: url("../images/bg.jpg");
+  background: url("../images/bg.jpg");
 }
 
 header.masthead .header-content {

@@ -1,0 +1,49 @@
+{% extends "layout.html" %}
+
+{% block main %}
+
+{% with messages = get_flashed_messages() %}
+         {% if messages %}
+            <ul>
+               {% for message in messages %}
+               <li<{{ message }}</li>
+               {% endfor %}
+            </ul>
+         {% endif %}
+      {% endwith %}
+      <header class="masthead" id="login">
+  <div class="container h-100">
+
+        <div class="card card-container">
+            
+            <p id="profile-name" class="profile-name-card">Register an Account</p>
+
+            <form class="form-signin" action="{{url_for('register')}}" method="post">
+            	{{ reg_form.csrf_token }}
+                <span id="reauth-email" class="reauth-email"></span>
+                {{ reg_form.name(class="form-control" ,placeholder="Name")}}
+                  <p class="help-block text-danger">{{ reg_form.name.errors[0]}}</p>
+
+                  {{ reg_form.email(class="form-control" ,placeholder="Email")}}
+                  <p class="help-block text-danger">{{ reg_form.email.errors[0]}}</p>
+                
+                  {{ reg_form.password(class="form-control" ,placeholder="Password")}}
+                  <p class="help-block text-danger">{{ reg_form.password.errors[0]}}</p>
+
+                  {{ reg_form.conf_password(class="form-control" ,placeholder="Confirm Password")}}
+                  <p class="help-block text-danger">{{ reg_form.conf_password.errors[0]}}</p>
+
+                  {{ reg_form.recaptcha(class="form-control")}}
+                  <p class="help-block text-danger">{{ reg_form.recaptcha.errors[0]}}</p>
+                
+                <button class="btn btn-lg btn-primary btn-block btn-signin" type="submit">Register</button>
+
+            </form><!-- /form -->
+            <a href="{{url_for('login')}}" class="forgot-password">
+               Already have an account
+            </a>
+        </div><!-- /card-container -->
+    </div><!-- /container -->
+</header>
+
+    {%endblock%}

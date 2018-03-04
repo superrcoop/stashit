@@ -7,67 +7,97 @@ This file creates your application.
 import os
 from app import app
 from flask import render_template, request, redirect, url_for, flash ,session ,abort
-from forms import reg_Form,loginForm
+from forms import reg_Form,login_Form,forgot_Form,upload_Form
 from werkzeug.utils import secure_filename
-from controllers import get_uploaded_images,flash_errors
+from controllers import get_uploaded_images,flash_errors,is_safe_url
 from werkzeug.datastructures import CombinedMultiDict
+#from flask_login import LoginManager, login_user, logout_user, login_required, current_user
+
+#login_manager = LoginManager()
+#login_manager.init_app(app)
+
+"""
+@login_manager.user_loader
+def load_user(user_id):
+    return User.get(user_id)
+"""
 
 @app.errorhandler(404)
 def page_not_found(error):
     """Custom 404 page."""
     return render_template('404.html'), 404
 
+@app.route("/")
+def index():
+    error = None
+    
+    return render_template('index.html',error=error)
+
+@app.route("/login",methods=['POST', 'GET'])
+def login():
+    error = None
+    login_form=login_Form()
+    """ Handles application  login """  
+    if request.method == 'POST':
+        if login_form.validate_on_submit():
+            # Login and validate the user.
+            # user should be an instance of your `User` class
+            
+            #login_user(user)
+
+            flash('Logged in successfully.')
+            return redirect(url_for('dashboard'))
+
+    return render_template('login.html',error=error,login_form=login_form)
+
+@app.route("/register",methods=['POST', 'GET'])
+def register():
+    error = None
+    reg_form=reg_Form()
+    if request.method == 'POST':
+
+        """ Handles application registration """    
+        if reg_form.validate_on_submit():    
+            
+            flash('You are registered', 'success')
+            return redirect(url_for('dashboard'))
+    return render_template('register.html',error=error,reg_form=reg_form)
+
+
+@app.route("/forgot_pass",methods=['POST', 'GET'])
+def forgot_pass():
+    error = None
+    forgot_form=forgot_Form()
+    if request.method == 'POST':
+        """ Handles application account recovery"""  
+        if forgot_form.validate_on_submit():
+            
+            flash('You were logged in', 'success')
+            return redirect(url_for('dashboard'))
+    return render_template('forgot_pass.html',error=error,forgot_form=forgot_form)
+
+
 @app.route("/busted")
 def busted():
     return render_template('busted.html')
 
-@app.route("/signin")
-def signin():
-    return render_template('signin.html')
-
-@app.route("/signup")
-def signup():
-    return render_template('signup.html')
 
 @app.route("/dashboard")
+#@login_required
 def dashboard():
     return render_template('feed.html')
 
-@app.route('/login', methods=['POST', 'GET'])
-def login():
-    error = None
-    form=loginForm()
-    if form.validate_on_submit():
-        if request.form['username'] != app.config['USERNAME'] or request.form['password'] != app.config['PASSWORD']:
-            error = 'Invalid username or password'
-        else:
-            session['logged_in'] = True
-            
-            flash('You were logged in', 'success')
-            return redirect(url_for('dashboard'))
-    return render_template('index.html', error=error)
 
-@app.route('/register', methods=['POST', 'GET'])
-def register():
-    error = None
-    form=reg_Form()
-    if request.method == 'POST':
-        if request.form['username'] != app.config['USERNAME'] or request.form['password'] != app.config['PASSWORD']:
-            error = 'Invalid username or password'
-        else:
-            session['logged_in'] = True
-            
-            flash('You were logged in', 'success')
-            return redirect(url_for('dashboard'))
-    return render_template('index.html', error=error)
-
-@app.route('/logout')
+@app.route('/logout', methods=['GET'])
+#@login_required
 def logout():
-    session.pop('logged_in', None)
+    logout_user()
+    #session.pop('logged_in', None)
     flash('You were logged out', 'success')
     return redirect(url_for('index'))
 
 @app.route('/upload', methods=['POST', 'GET'])
+#@login_required
 def upload():
     if not session.get('logged_in'):
         abort(401)
@@ -91,17 +121,16 @@ def upload():
             flash('File NOT Saved', 'error')
     return render_template('upload.html',form=form)
 
-@app.route('/files')
-def files():
+@app.route('/recent')
+#@login_required
+def view_files():
     if not session.get('logged_in'):
         abort(401)
     files = get_uploaded_images()
-    return render_template('files.html', files = files)
+    return render_template('recents.html', files = files)
 
     
-@app.route("/")
-def index():
-    return render_template('index.html')
+
 
 @app.after_request
 def add_header(response):

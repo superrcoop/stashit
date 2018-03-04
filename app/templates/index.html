@@ -1,6 +1,17 @@
 {% extends "layout.html" %}
 
 {% block main %}
+
+{% with messages = get_flashed_messages() %}
+         {% if messages %}
+            <ul>
+               {% for message in messages %}
+               <li<{{ message }}</li>
+               {% endfor %}
+            </ul>
+         {% endif %}
+      {% endwith %}
+
 <header class="masthead" id="home">
   <div class="container h-100">
     <div class="row h-100">
@@ -98,7 +109,7 @@
   <div class="cta-content">
     <div class="container">
       <h2>What are you waiting for ?<br></h2>
-      <a data-toggle="modal" data-target="#register" class="btn btn-outline btn-xl js-scroll-trigger">REGISTER NOW</a>
+      <a href="{{ url_for('register') }}" class="btn btn-outline btn-xl js-scroll-trigger">REGISTER NOW</a>
     </div>
   </div>
   <div class="overlay"></div>
@@ -120,23 +131,5 @@
 </section>
 <!-- end download -->
 
-<!-- Register Modal-->
-    <div class="modal fade" id="register" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Login</h5>
-            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">×</span>
-            </button>
-          </div>
-          <div class="modal-body">Select "Login" below if you are ready to start your current session.</div>
-          <div class="modal-footer">
-            <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-            <a class="btn btn-primary" href="{{ url_for('dashboard') }}">Login</a>
-          </div>
-        </div>
-      </div>
-    </div>
 
 {% endblock %}

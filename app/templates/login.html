@@ -1,0 +1,42 @@
+{% extends "layout.html" %}
+
+{% block main %}
+
+{% with messages = get_flashed_messages() %}
+         {% if messages %}
+            <ul>
+               {% for message in messages %}
+               <li<{{ message }}</li>
+               {% endfor %}
+            </ul>
+         {% endif %}
+      {% endwith %}
+      <header class="masthead" id="login">
+  <div class="container h-100">
+
+        <div class="card card-container">
+            <img id="profile-img" class="profile-img-card" src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" />
+            <p id="profile-name" class="profile-name-card"></p>
+
+            <form class="form-signin" action="{{url_for('login')}}" method="post">
+            	{{ login_form.csrf_token }}
+                <span id="reauth-email" class="reauth-email"></span>
+                  {{ login_form.email(class="form-control" ,placeholder="Email")}}
+                  <p class="help-block text-danger">{{ login_form.email.errors[0]}}</p>
+                
+                  {{ login_form.password(class="form-control" ,placeholder="Password")}}
+                  <p class="help-block text-danger">{{ login_form.password.errors[0]}}</p>
+                
+                <button class="btn btn-lg btn-primary btn-block btn-signin" type="submit">Login</button>
+            </form><!-- /form -->
+            <a href="{{url_for('forgot_pass')}}" class="forgot-password">
+                Forgot the password?
+            </a><br>
+            <a href="{{url_for('register')}}" class="forgot-password">
+                Create New Account
+            </a>
+        </div><!-- /card-container -->
+    </div><!-- /container -->
+</header>
+
+    {%endblock%}

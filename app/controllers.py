@@ -1,5 +1,6 @@
 import os
-from flask import flash
+from flask import flash , request, url_for
+from urlparse import urlparse, urljoin
 
 def get_uploaded_images():
     rootdir = os.getcwd()
@@ -18,3 +19,9 @@ def flash_errors(form):
                 getattr(form, field).label.text,
                 error
 ), 'danger')
+
+def is_safe_url(target):
+    ref_url = urlparse(request.host_url)
+    test_url = urlparse(urljoin(request.host_url, target))
+    return test_url.scheme in ('http', 'https') and \
+           ref_url.netloc == test_url.netloc

@@ -1,0 +1,29 @@
+{% extends "dasboard.html" %}
+{% block main %}
+
+
+
+<!-- Breadcrumbs-->
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a href="#">Dashboard</a>
+        </li>
+        <li class="breadcrumb-item active">Recent</li>
+      </ol>
+<div class="row">
+        <div class="col-lg-12">
+          
+          <div class="mb-0 mt-4">
+            <i class="fa fa-newspaper-o"></i> Recently Stored</div>
+          <hr class="mt-2">
+{% for file in files %}
+    
+    <img class="gal" src="{{url_for('static', filename ='uploads/'+file)}}"></img>
+    
+{% endfor %}
+
+</div>
+</div>
+
+
+{% endblock %}
