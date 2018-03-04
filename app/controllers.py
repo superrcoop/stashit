@@ -1,6 +1,6 @@
 import os
 from flask import flash , request, url_for
-from urlparse import urlparse, urljoin
+from urllib.parse import urlparse, urljoin
 
 def get_uploaded_images():
     rootdir = os.getcwd()
