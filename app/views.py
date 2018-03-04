@@ -11,12 +11,13 @@ from forms import reg_Form,login_Form,forgot_Form,upload_Form
 from werkzeug.utils import secure_filename
 from controllers import get_uploaded_images,flash_errors,is_safe_url
 from werkzeug.datastructures import CombinedMultiDict
-#from flask_login import LoginManager, login_user, logout_user, login_required, current_user
-
-#login_manager = LoginManager()
-#login_manager.init_app(app)
 
 """
+from flask_login import LoginManager, login_user, logout_user, login_required, current_user
+
+login_manager = LoginManager()
+login_manager.init_app(app)
+
 @login_manager.user_loader
 def load_user(user_id):
     return User.get(user_id)
