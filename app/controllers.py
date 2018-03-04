@@ -4,7 +4,6 @@ from urlparse import urlparse, urljoin
 
 def get_uploaded_images():
     rootdir = os.getcwd()
-    print rootdir
     ls = []
     for subdir, dirs, files in os.walk(rootdir + '/app/static/uploads'):
         for file in files:

@@ -26,19 +26,19 @@
       <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
           <a class="nav-link" href="#">
-            <i class="fa fa-fw fa-dashboard"></i>
+            <i class="fas fa-columns"></i>
             <span class="nav-link-text">Dashboard</span>
           </a>
         </li>
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Charts">
           <a class="nav-link" href="#">
-            <i class="fa fa-fw fa-area-chart"></i>
+            <i class="fas fa-plus"></i>
             <span class="nav-link-text">Add/New</span>
           </a>
         </li>
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Tables">
           <a class="nav-link" href="#">
-            <i class="fa fa-fw fa-table"></i>
+            <i class="fas fa-star"></i>
             <span class="nav-link-text">Important</span>
           </a>
         </li>
@@ -62,19 +62,19 @@
               <a href="#">Passwords</a>
             </li>
             <li>
-              <a href="#">Wallet</a>
+              <a href="#">Wallet Keys</a>
             </li>
           </ul>
         </li>
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Tables">
           <a class="nav-link" href="#">
-            <i class="fa fa-fw fa-table"></i>
+            <i class="fas fa-trash-alt"></i>
             <span class="nav-link-text">Trash</span>
           </a>
         </li>
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Link">
           <a class="nav-link" href="#">
-            <i class="fa fa-fw fa-link"></i>
+            <i class="fas fa-cog"></i>
             <span class="nav-link-text">Settings</span>
           </a>
         </li>
@@ -178,7 +178,7 @@
         </li>
         <li class="nav-item">
           <a class="nav-link" data-toggle="modal" data-target="#exampleModal">
-            <i class="fa fa-fw fa-sign-out"></i>Logout</a>
+            <i class="fas fa-sign-out-alt"></i>Logout</a>
         </li>
       </ul>
     </div>
@@ -238,12 +238,14 @@
    
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="{{ url_for('static', filename='../static/jquery/jquery.min.js') }}"></script>    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="{{ url_for('static', filename='../static/js/bootstrap.min.js') }}"></script>
     <script src="{{ url_for('static', filename='../static/js/new-age.min.js') }}"></script>
     <script src="{{ url_for('static', filename='../static/js/main.js') }}"></script>
     <script src="{{ url_for('static', filename='../static/js/sb-admin.min.js') }}"></script>
     <script src="{{ url_for('static', filename='../static/js/main.js') }}"></script>
     <script src="{{ url_for('static', filename='../static/jquery/jquery-easing/jquery.easing.min.js') }}"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
     {% block js %} {% endblock%}
   </div>
 </body>
