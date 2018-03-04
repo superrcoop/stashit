@@ -11,24 +11,25 @@
             </ul>
          {% endif %}
       {% endwith %}
+      
+  <div class="container h-100">
 
-      <!-- Register Modal-->
-    <div class="modal fade" id="upload" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Upload secure file</h5>
-            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">×</span>
-            </button>
-          </div>
-          <div class="modal-body">Select "Upload" below if you are ready to upload file.</div>
-          <div class="modal-footer">
-            <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-            <a class="btn btn-primary" href="{{ url_for('dashboard') }}">Upload</a>
-          </div>
-        </div>
-      </div>
-    </div>
+        <div class="card card-container">
+            <p id="profile-name" class="profile-name-card">Upload file</p>
 
-      {% endblock %}
+            <form class="form-signin" action="{{url_for('login')}}" method="post">
+              {{ upload_form.csrf_token }}
+                {{ upload_form.upload.label(class="text-secondary")}}<br>
+                {{ upload_form.upload(class="form-control" ,placeholder="Upload")}}
+                
+                <button class="btn btn-lg btn-primary btn-block btn-signin" type="submit">Upload</button>
+            </form><!-- /form -->
+            <a href="{{url_for('dashboard')}}" class="forgot-password">
+                Go back
+            </a><br>
+            
+        </div><!-- /card-container -->
+    </div><!-- /container -->
+</header>
+
+    {%endblock%}

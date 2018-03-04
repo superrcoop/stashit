@@ -114,11 +114,9 @@ def upload():
                             app.config['UPLOAD_FOLDER'], filename
                         ))
             flash('File Saved', 'success')
-            return redirect(url_for('home'))
-        else:
-            print form.errors.items()
-
-            flash('File NOT Saved', 'error')
+            return redirect(url_for('dashboard'))
+        flash('File NOT Saved', 'error')
+        return redirect(url_for('dashboard'))
     return render_template('upload.html',form=form)
 
 @app.route('/recent')
