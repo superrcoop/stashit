@@ -7,7 +7,7 @@ This file creates your application.
 import os
 from app import app
 from flask import render_template, request, redirect, url_for, flash ,session ,abort
-from forms import reg_Form,login_Form,forgot_Form,upload_Form
+from .forms import reg_Form,login_Form,forgot_Form,upload_Form
 from werkzeug.utils import secure_filename
 from controllers import get_uploaded_images,flash_errors,is_safe_url
 from werkzeug.datastructures import CombinedMultiDict
