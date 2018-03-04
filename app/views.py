@@ -31,8 +31,49 @@ def page_not_found(error):
 @app.route("/")
 def index():
     error = None
-    
     return render_template('index.html',error=error)
+
+@app.route("/important")
+def important():
+    error = None
+    return render_template('important.html',error=error)
+
+@app.route("/gallery")
+def gallery():
+    error = None
+    return render_template('gallery.html',error=error)
+
+@app.route("/passwords")
+def passwords():
+    error = None
+    return render_template('passwords.html',error=error)
+
+@app.route("/settings")
+def settings():
+    error = None
+    return render_template('settings.html',error=error)
+
+@app.route("/trash")
+def trash():
+    error = None
+    return render_template('trash.html',error=error)
+
+@app.route("/wallet_keys")
+def wallet_keys():
+    error = None
+    return render_template('wallet_keys.html',error=error)
+
+@app.route("/documents")
+def documents():
+    error = None
+    return render_template('documents.html',error=error)
+
+@app.route("/articles")
+def articles():
+    error = None
+    return render_template('articles.html',error=error)
+
+
 
 @app.route("/login",methods=['POST', 'GET'])
 def login():

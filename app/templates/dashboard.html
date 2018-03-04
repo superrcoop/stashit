@@ -25,19 +25,19 @@
     <div class="collapse navbar-collapse" id="navbarResponsive">
       <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
-          <a class="nav-link" href="#">
+          <a class="nav-link" href="{{ url_for('dashboard') }}">
             <i class="fas fa-columns"></i>
             <span class="nav-link-text">Dashboard</span>
           </a>
         </li>
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Charts">
-          <a class="nav-link" href="#">
+          <a class="nav-link" href="{{ url_for('upload') }}">
             <i class="fas fa-plus"></i>
             <span class="nav-link-text">Add/New</span>
           </a>
         </li>
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Tables">
-          <a class="nav-link" href="#">
+          <a class="nav-link" href="{{ url_for('important') }}">
             <i class="fas fa-star"></i>
             <span class="nav-link-text">Important</span>
           </a>
@@ -50,30 +50,30 @@
           <ul class="sidenav-second-level collapse" id="collapseMulti">
             
             <li>
-              <a href="#">Photos</a>
+              <a href="{{ url_for('gallery') }}">Photos</a>
             </li>
             <li>
-              <a href="#">Articles/Links</a>
+              <a href="{{ url_for('articles') }}">Articles/Links</a>
             </li>
             <li>
-              <a href="#">Documents</a>
+              <a href="{{ url_for('documents') }}">Documents</a>
             </li>
             <li>
-              <a href="#">Passwords</a>
+              <a href="{{ url_for('passwords') }}">Passwords</a>
             </li>
             <li>
-              <a href="#">Wallet Keys</a>
+              <a href="{{ url_for('wallet_keys') }}">Wallet Keys</a>
             </li>
           </ul>
         </li>
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Tables">
-          <a class="nav-link" href="#">
+          <a class="nav-link" href="{{ url_for('trash') }}">
             <i class="fas fa-trash-alt"></i>
             <span class="nav-link-text">Trash</span>
           </a>
         </li>
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Link">
-          <a class="nav-link" href="#">
+          <a class="nav-link" href="{{ url_for('settings') }}">
             <i class="fas fa-cog"></i>
             <span class="nav-link-text">Settings</span>
           </a>
