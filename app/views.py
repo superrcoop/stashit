@@ -1,37 +1,93 @@
-"""
-Flask Documentation:     http://flask.pocoo.org/docs/
-Jinja2 Documentation:    http://jinja.pocoo.org/2/documentation/
-Werkzeug Documentation:  http://werkzeug.pocoo.org/documentation/
-This file creates your application.
-"""
 import os
-from app import app
+from app import app, db
+from random import randint
 from flask import render_template, request, redirect, url_for, flash ,session ,abort
 from .forms import reg_Form,login_Form,forgot_Form,upload_Form
 from werkzeug.utils import secure_filename
-from .controllers import get_uploaded_images,flash_errors,is_safe_url
+from .controllers import get_uploaded_images, flash_errors, is_safe_url, checkPassword, checkAlpha, checkEmail
 from werkzeug.datastructures import CombinedMultiDict
-
-"""
-from flask_login import LoginManager, login_user, logout_user, login_required, current_user
-
+from models import User
+from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
 login_manager = LoginManager()
 login_manager.init_app(app)
+login_manager.login_view = 'login'
+
 
 @login_manager.user_loader
 def load_user(user_id):
-    return User.get(user_id)
-"""
-
-@app.errorhandler(404)
-def page_not_found(error):
-    """Custom 404 page."""
-    return render_template('404.html'), 404
+    return User.query.get(int(user_id))
 
 @app.route("/")
 def index():
     error = None
     return render_template('index.html',error=error)
+
+@app.route("/login",methods=['POST', 'GET'])
+def login():
+    error = None
+    form = login_Form()
+    if request.method == 'POST':
+        if form.validate_on_submit():
+            email = form.email.data
+            password = form.password.data
+            if(checkPassword(password) and checkEmail(email)):
+                user = User.query.filter_by(email = email).first()
+                if user:
+                    if user.checkPassword(password): 
+                        login_user(user)
+                        return redirect(url_for('dashboard'))
+                    else: 
+                        error = 'Invalid password. Please try again.'
+                else:
+                    error = 'Email address not found'
+            else:
+                error = "Invalid email and/or password. Please try again"
+        else:
+            error = "Oops! Try that again."
+    else:
+        pass
+    return render_template('login.html',error=error,form=form)
+
+@app.route("/register",methods=['POST', 'GET'])
+def register(): 
+    error = None
+    form = reg_Form()
+    if request.method == 'POST':    
+        if form.validate_on_submit():
+            first_name, last_name, email, password, conf_password, username = [form.first_name.data, form.last_name.data, form.email.data, form.password.data, form.conf_password.data, form.username.data]
+            if(checkEmail(email) and checkPassword(password) and checkPassword(conf_password) and checkAlpha(first_name), checkAlpha(last_name), checkAlpha(username)):
+                if(password == conf_password):
+                    if not User.query.filter_by(email = email).first() and not User.query.filter_by(username = username).first():
+                        user = User(username = username, first_name = first_name, last_name = last_name, email = email, password = password, salt = randint(827,18273))
+                        db.session.add(user)
+                        db.session.commit()
+                        return render_template('login.html', message="Success", form = login_Form())
+                    else:
+                        error = ""
+                        if User.query.filter_by(email = email).first():
+                            error += "Email address already exists. "
+                        if User.query.filter_by(username = username).first():
+                            error += "Username already exists."
+                else: 
+                    error = "Passwords didn't match. Please try again."
+            else:
+                error = "Please check your inputs and try again"
+        else:
+            error = "Oops! Try that again."
+    else:
+        pass 
+    return render_template('register.html',error=error,form=form)
+
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('index'))
+
+@app.route("/dashboard")
+@login_required
+def dashboard():
+    return render_template('feed.html')
 
 @app.route("/important")
 def important():
@@ -73,39 +129,6 @@ def articles():
     error = None
     return render_template('articles.html',error=error)
 
-
-
-@app.route("/login",methods=['POST', 'GET'])
-def login():
-    error = None
-    login_form=login_Form()
-    """ Handles application  login """  
-    if request.method == 'POST':
-        if login_form.validate_on_submit():
-            # Login and validate the user.
-            # user should be an instance of your `User` class
-            
-            #login_user(user)
-
-            flash('Logged in successfully.')
-            return redirect(url_for('dashboard'))
-
-    return render_template('login.html',error=error,login_form=login_form)
-
-@app.route("/register",methods=['POST', 'GET'])
-def register():
-    error = None
-    reg_form=reg_Form()
-    if request.method == 'POST':
-
-        """ Handles application registration """    
-        if reg_form.validate_on_submit():    
-            
-            flash('You are registered', 'success')
-            return redirect(url_for('dashboard'))
-    return render_template('register.html',error=error,reg_form=reg_form)
-
-
 @app.route("/forgot_pass",methods=['POST', 'GET'])
 def forgot_pass():
     error = None
@@ -124,20 +147,6 @@ def busted():
     return render_template('busted.html')
 
 
-@app.route("/dashboard")
-#@login_required
-def dashboard():
-    return render_template('feed.html')
-
-
-@app.route('/logout', methods=['GET'])
-#@login_required
-def logout():
-    logout_user()
-    #session.pop('logged_in', None)
-    flash('You were logged out', 'success')
-    return redirect(url_for('index'))
-
 @app.route('/upload', methods=['POST', 'GET'])
 #@login_required
 def upload():
@@ -145,8 +154,6 @@ def upload():
         abort(401)
 
     form = UploadForm(CombinedMultiDict((request.files, request.form)))
- 
-    
     if request.method == 'POST':
         if form.validate_on_submit():
             f = form.upload.data
@@ -169,7 +176,10 @@ def view_files():
     files = get_uploaded_images()
     return render_template('recents.html', files = files)
 
-    
+@app.errorhandler(404)
+def page_not_found(error):
+    """Custom 404 page."""
+    return render_template('404.html'), 404
 
 
 @app.after_request
@@ -182,8 +192,6 @@ def add_header(response):
     response.headers['X-UA-Compatible'] = 'IE=Edge,chrome=1'
     response.headers['Cache-Control'] = 'public, max-age=0'
     return response
-
-
 
 if __name__ == '__main__':
     app.run(debug=True, host="0.0.0.0", port="8080")

@@ -22,6 +22,20 @@ Install dependencies:
 
 `$ pip install -r requirements.txt`
 
+Ensure that PostgreSQL database is set up and create your database. Change the database URI (located in `__init__.py`)
+
+Initilise the database 
+
+`$ python flaskmigrations.py db init`
+
+Migrate the database 
+
+`$ python flaskmigrations.py db migrate`
+
+Upgrade 
+
+`$ python flaskmigrations.py db upgrade`
+
 Run the app:
 
 `$ python app.py`
