@@ -27,3 +27,4 @@ virtualenvwrapper==4.8.2
 Werkzeug==0.14.1
 WTForms==2.1
 Flask_Migrate==2.1.1
+psycopg2==2.7.4
