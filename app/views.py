@@ -1,8 +1,10 @@
 import os
-from app import app, db
+from time import time
+from flask_mail import Message, Mail
+from app import app, db, mail
 from random import randint
 from flask import render_template, request, redirect, url_for, flash ,session ,abort
-from .forms import reg_Form,login_Form,forgot_Form,upload_Form
+from .forms import reg_Form,login_Form,forgot_Form,upload_Form, recoverForm, passwordForm
 from werkzeug.utils import secure_filename
 from .controllers import get_uploaded_images, flash_errors, is_safe_url, checkPassword, checkAlpha, checkEmail
 from werkzeug.datastructures import CombinedMultiDict
@@ -76,7 +78,93 @@ def register():
             error = "Oops! Try that again."
     else:
         pass 
-    return render_template('register.html',error=error,form=form)
+    return render_template('register.html', error=error, form=form)
+
+@app.route("/recovery", methods=['POST', 'GET'])
+def recovery():
+    error, message = None, None
+    form = recoverForm()
+    if request.method == 'POST': 
+        if form.validate_on_submit():
+            try:
+                email, recovery = form.email.data, int(form.recover.data)
+                if checkEmail(email):
+                    user = User.query.filter_by(email = email).first()
+                    if user:
+                        if int(user.recoveryCode) == recovery:
+                            user.recoveryCode = None
+                            db.session.commit()
+                            login_user(user)
+                            form = passwordForm()
+                            return render_template('changepassword.html', email = user.email, form = form)
+                        else:
+                            error = "Invalid recovery code. Please try again."
+                    else:
+                        error = "Internal Server Error. Please try again."
+                else:
+                    form = forgot_Form()
+                    return render_template('forgot_pass.html',error = "Invalid email provided. Please start over the process.", form = form, message = None)
+            except ValueError:
+                error = "Invalid recovery code. Please try again."
+        else:
+            error = error + " Invalid form data"
+    else: 
+        error = "Hello world"
+    # return redirect(url_for('forgot_pass'))
+    return render_template('recover.html', error = error, form = form, email = "jc@stashit.com")
+    form = forgot_Form()
+    return render_template('forgot_pass.html',error = error, form = form, message = message)
+
+@app.route("/forgot_pass",methods=['POST', 'GET'])
+def forgot_pass():
+    error, message = None, None
+    form = forgot_Form()
+    if request.method == 'POST':
+        if form.validate_on_submit():
+            email = form.email.data
+            if checkEmail(email):
+                user = User.query.filter_by(email = email).first()
+                if user:
+                    l = long(time())
+                    msg =  Message('Recover Account', sender = 'stashit.no.reply@gmail.com', recipients = [email])
+                    msg.body = "Hello " + user.first_name + ", your recovery code is " + str(l) + ". Happy Stashing."
+                    try:
+                        mail.send(msg)
+                        user.recoveryCode = l
+                        db.session.commit()
+                    except SMTPAuthenticationError:
+                        return render_template('forgot_pass.html',error = "Internal Server Error. Please Try again.", form = form, message = message)
+                    form = recoverForm()
+                    return render_template('recover.html', message = "Email Successfully Sent.", form = form, email = user.email)
+                else:
+                    error = "No account is tied to that account. You may create a new acount. It's FREE!"
+            else:
+                error = "Invalid email address. Please try again."
+        else: 
+            error = "Oops. Try that again"
+    return render_template('forgot_pass.html',error = error, form = form, message = message)
+
+@app.route('/changepassword', methods = ['POST', 'GET'])
+@login_required
+def changePassword():
+    form = passwordForm()
+    if request.method == "POST" and current_user :
+        if form.validate_on_submit():
+            password, conf_password = form.password.data, form.conf_password.data
+            if checkPassword(password) and checkPassword(conf_password):
+                if(password == conf_password):
+                    user = current_user
+                    user.changePassword(password)
+                    db.session.commit()
+                    return redirect(url_for('logout'))
+
+                else:
+                    error = "Passwords did not match, Please try again"
+            else:
+                error = "Invalid data. Please try again"
+        else:
+            pass
+    return render_template('changepassword.html', email = current_user.email, form = form)
 
 @app.route('/logout')
 @login_required
@@ -128,19 +216,6 @@ def documents():
 def articles():
     error = None
     return render_template('articles.html',error=error)
-
-@app.route("/forgot_pass",methods=['POST', 'GET'])
-def forgot_pass():
-    error = None
-    forgot_form=forgot_Form()
-    if request.method == 'POST':
-        """ Handles application account recovery"""  
-        if forgot_form.validate_on_submit():
-            
-            flash('You were logged in', 'success')
-            return redirect(url_for('dashboard'))
-    return render_template('forgot_pass.html',error=error,forgot_form=forgot_form)
-
 
 @app.route("/busted")
 def busted():

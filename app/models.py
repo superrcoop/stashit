@@ -12,6 +12,7 @@ class User(db.Model, UserMixin):
 	password		= db.Column(db.String(80))
 	salt 			= db.Column(db.Integer)
 	profile_photo 	= db.Column(db.String(80))
+	recoveryCode 	= db.Column(db.Integer)
 
 	def __init__(self, username, first_name, last_name, email, password, salt, id = None, profile_photo = 'default.png'):
 		if id: 
@@ -25,9 +26,22 @@ class User(db.Model, UserMixin):
 		self.first_name 	= first_name 
 		self.last_name 		= last_name
 		self.profile_photo 	= profile_photo
+		self.recoveryCode 	= None
+
+	def setRecoveryCode(self, code):
+		self.recoveryCode = code
+
+	def checkCode(self, code):
+		if code == self.recoveryCode:
+			recoveryCode = None
+			return True
+		return False
+
+	def changePassword(self, password):
+		self.password = generate_password_hash(password + str(self.salt), method = 'sha256')
 
 	def checkPassword(self, password):
-		return check_password_hash(self.password, password+str(self.salt))
+		return check_password_hash(self.password, password + str(self.salt))
 
 
 def users():
