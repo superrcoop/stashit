@@ -28,5 +28,8 @@ Werkzeug==0.14.1
 WTForms==2.1
 Flask_Migrate==2.1.1
 psycopg2==2.7.4
+<<<<<<< HEAD
 Flask-Script==2.0.6
 Flask-Mail
+=======
+>>>>>>> ec443c9f298b9a2607aba5bf9655126d7d046234
