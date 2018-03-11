@@ -1,11 +1,6 @@
 import os 
 from flask import flash , request, url_for
-from models import User
-try:
-    from urllib.parse import urlparse, urljoin
-except ImportError:
-     from urlparse import urlparse, urljoin
-
+from .models import User
 from re import compile
 EMAIL_REGEX = compile(r"\"?([-a-zA-Z0-9._?{}]+@\w+\.\w+)\"?")
 PASSWORD_REGEX = compile(r'^([\w!\-#@&%]{8,})$')
