@@ -4,9 +4,10 @@ from flask_mail import Mail
 import os , psycopg2
 
 UPLOAD_FOLDER = './app/static/uploads'
-DATABASE_URL = os.environ['DATABASE_URL']
+
 
 app = Flask(__name__)
+
 app.config.from_object(__name__)
 app.config['UPLOAD_FOLDER'] 					= UPLOAD_FOLDER
 app.config['RECAPTCHA_USE_SSL'] 				= True
@@ -25,7 +26,8 @@ app.config['MAIL_USE_SSL'] 						= True
 #app.config['BCRYPT_LOG_ROUNDS'] 				= 6
 #app.config['BCRYPT_HASH_IDENT'] 				= '2b'
 #app.config['BCRYPT_HANDLE_LONG_PASSWORDS'] 		= False
-
+#
+DATABASE_URL = os.environ['DATABASE_URL']
 app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] 	= True
 conn = psycopg2.connect(DATABASE_URL, sslmode='require')
