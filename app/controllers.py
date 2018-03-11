@@ -1,4 +1,4 @@
-import os , uuid
+import os 
 from flask import flash , request, url_for
 from models import User
 try:
@@ -34,11 +34,6 @@ def is_safe_url(target):
     return test_url.scheme in ('http', 'https') and \
            ref_url.netloc == test_url.netloc
 
-def generate_id():
-    return int(str(uuid.uuid4().int)[:8])
-
-def generate_rcode():
-    return str(uuid.uuid4())[:4]
 
 def checkPassword(password): #check both password and conf_password
     if not PASSWORD_REGEX.match(password): 

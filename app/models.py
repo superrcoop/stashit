@@ -1,8 +1,14 @@
 from . import db 
 import uuid 
 from flask_login import UserMixin
-from app import app_bcrypt 
 from sqlalchemy.ext.hybrid import hybrid_property, hybrid_method
+from bcrypt import hashpw, gensalt
+
+def generate_id():
+    return int(str(uuid.uuid4().int)[:8])
+
+def generate_rcode():
+    return int(str(uuid.uuid4())[:6])
 
 class User(db.Model, UserMixin):
 	__tablename__ 	= 'userstable'
@@ -11,31 +17,31 @@ class User(db.Model, UserMixin):
 	email 			= db.Column(db.String(80), unique=True,nullable=False)
 	first_name 		= db.Column(db.String(80))
 	last_name 		= db.Column(db.String(80))
-	_password		= db.Column(db.Binary(60),nullable=False)
+	_password		= db.Column(db.String(255),nullable=False)
 	profile_photo 	= db.Column(db.String(80))
-	recoveryCode 	= db.Column(db.String(10))
+	recoveryCode 	= db.Column(db.Integer,nullable=False)
 	#authenticated   = db.Column(db.Boolean, default=False)
 
 	def __init__(self, username, first_name, last_name, email, plain_password, profile_photo=None, id=None):
 		if id: 
 			self.id 		= id
 		else:
-			self.id 		= 4 #generate_id()
+			self.id 		= generate_id()
 		self.username 		= username
 		self.email 			= email
 		self.password 		= plain_password
 		self.first_name 	= first_name 
 		self.last_name 		= last_name
 		self.profile_photo 	= profile_photo
-		self.recoveryCode 	= 4 #generate_rcode()
+		self.recoveryCode 	= generate_rcode()
 		#self.authenticated  = False
 
 	def setRecoveryCode(self):
-		return self.recoveryCode=generate_rcode()
+		self.recoveryCode = generate_rcode()
 
 	def checkCode(self, code):
 		if code == self.recoveryCode:
-			recoveryCode = None
+			self.setRecoveryCode
 			return True
 		return False
 
@@ -45,11 +51,11 @@ class User(db.Model, UserMixin):
 
 	@password.setter
 	def password(self,plain_password):
-		self._password = bcrypt.generate_password_hash(plain_password)
+		self._password = hashpw(plain_password,gensalt())
  
  	@hybrid_method
 	def is_correct_password(self, plain_password):
-		return bcrypt.check_password_hash(self.password, plain_password)
+		return hashpw(plain_password,self.password)==self.password
 	
 	def get_id(self):
 		try:

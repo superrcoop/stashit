@@ -1,7 +1,7 @@
 from flask import Flask
 from flask_sqlalchemy  import SQLAlchemy
 from flask_mail import Mail
-from flask.ext.bcrypt import Bcrypt
+
 
 
 # SECRET_KEY is needed for session security, the flash() method in this case stores the message in a session
@@ -23,11 +23,13 @@ app.config['MAIL_USERNAME'] 					= 'stashit.no.reply@gmail.com'
 app.config['MAIL_PASSWORD'] 					= 'Stashitpassword'
 app.config['MAIL_USE_TLS'] 						= False
 app.config['MAIL_USE_SSL'] 						= True
+#app.config['BCRYPT_LOG_ROUNDS'] 				= 6
+#app.config['BCRYPT_HASH_IDENT'] 				= '2b'
+#app.config['BCRYPT_HANDLE_LONG_PASSWORDS'] 		= False
 
 app.config['SQLALCHEMY_DATABASE_URI'] 			= 'postgresql://postgres:password@localhost/securitydatabase'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] 	= True
 
 db = SQLAlchemy(app)
 mail = Mail(app)
-app_bcrypt = Bcrypt(app)
 from app import views
