@@ -121,12 +121,10 @@ def forgot_pass():
             if checkEmail(email):
                 user = User.query.filter_by(email = email).first()
                 if user:
-                    l = long(time())
                     msg =  Message('Recover Account', sender = 'stashit.no.reply@gmail.com', recipients = [email])
-                    msg.body = "Hello " + user.first_name + ", your recovery code is " + str(l) + ". Happy Stashing."
+                    msg.body = "Hello " + user.first_name + ", your recovery code is " + user.recoveryCode + ". Happy Stashing."
                     try:
                         mail.send(msg)
-                        user.recoveryCode = l
                         db.session.commit()
                     except SMTPAuthenticationError:
                         return render_template('forgot_pass.html',error = "Internal Server Error. Please Try again.", form = form, message = message)
