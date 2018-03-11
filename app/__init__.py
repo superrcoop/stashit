@@ -3,10 +3,8 @@ from flask_sqlalchemy  import SQLAlchemy
 from flask_mail import Mail
 import os , psycopg2
 
-
-
-# SECRET_KEY is needed for session security, the flash() method in this case stores the message in a session
 UPLOAD_FOLDER = './app/static/uploads'
+DATABASE_URL = os.environ['DATABASE_URL']
 
 app = Flask(__name__)
 app.config.from_object(__name__)
@@ -28,7 +26,7 @@ app.config['MAIL_USE_SSL'] 						= True
 #app.config['BCRYPT_HASH_IDENT'] 				= '2b'
 #app.config['BCRYPT_HANDLE_LONG_PASSWORDS'] 		= False
 
-DATABASE_URL 									= os.environ['DATABASE_URL']
+
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] 	= True
 conn = psycopg2.connect(DATABASE_URL, sslmode='require')
 
