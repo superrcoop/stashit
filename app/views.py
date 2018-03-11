@@ -8,7 +8,7 @@ from .forms import reg_Form,login_Form,forgot_Form,upload_Form, recoverForm, pas
 from werkzeug.utils import secure_filename
 from .controllers import get_uploaded_images, flash_errors, checkPassword, checkAlpha, checkEmail
 from werkzeug.datastructures import CombinedMultiDict
-from models import User
+from .models import User
 from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
 login_manager = LoginManager()
 login_manager.init_app(app)
