@@ -1,8 +1,8 @@
-from . import db 
 import uuid 
 from flask_login import UserMixin
 from sqlalchemy.ext.hybrid import hybrid_property, hybrid_method
 from bcrypt import hashpw, gensalt
+from . import db 
 
 def generate_id():
     return int(str(uuid.uuid4().int)[:8])
