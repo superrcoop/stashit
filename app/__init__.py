@@ -26,7 +26,7 @@ app.config['MAIL_USE_SSL'] 						= True
 #app.config['BCRYPT_HASH_IDENT'] 				= '2b'
 #app.config['BCRYPT_HANDLE_LONG_PASSWORDS'] 		= False
 
-
+app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] 	= True
 conn = psycopg2.connect(DATABASE_URL, sslmode='require')
 
