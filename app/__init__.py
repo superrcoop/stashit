@@ -1,7 +1,7 @@
 from flask import Flask
 from flask_sqlalchemy  import SQLAlchemy
 from flask_mail import Mail
-import os
+import os , psycopg2
 
 
 
@@ -30,6 +30,7 @@ app.config['MAIL_USE_SSL'] 						= True
 
 app.config['SQLALCHEMY_DATABASE_URI'] 			= os.environ['DATABASE_URL']
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] 	= True
+conn = psycopg2.connect(DATABASE_URL, sslmode='require')
 
 db = SQLAlchemy(app)
 mail = Mail(app)
