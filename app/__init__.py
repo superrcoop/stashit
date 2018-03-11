@@ -1,9 +1,8 @@
 from flask import Flask
 from flask_sqlalchemy  import SQLAlchemy
 from flask_mail import Mail
-# Config Values
-USERNAME = 'admin@admin.com'
-PASSWORD = 'password123'
+from flask.ext.bcrypt import Bcrypt
+
 
 # SECRET_KEY is needed for session security, the flash() method in this case stores the message in a session
 UPLOAD_FOLDER = './app/static/uploads'
@@ -30,5 +29,5 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] 	= True
 
 db = SQLAlchemy(app)
 mail = Mail(app)
-
+app_bcrypt = Bcrypt(app)
 from app import views

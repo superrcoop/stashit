@@ -32,18 +32,18 @@ def login():
         if form.validate_on_submit():
             email = form.email.data
             password = form.password.data
-            if(checkPassword(password) and checkEmail(email)):
-                user = User.query.filter_by(email = email).first()
-                if user:
-                    if user.checkPassword(password): 
-                        login_user(user)
-                        return redirect(url_for('dashboard'))
-                    else: 
-                        error = 'Invalid password. Please try again.'
-                else:
-                    error = 'Email address not found'
+            #if(checkPassword(password) and checkEmail(email)):
+            user = User.query.filter_by(email = email).first()
+            if user:
+                if user.is_correct_password(password): 
+                    login_user(user)
+                    return redirect(url_for('dashboard'))
+                else: 
+                    error = 'Invalid password. Please try again.'
             else:
-                error = "Invalid email and/or password. Please try again"
+                error = 'Email address not found'
+            #else:
+            #    error = "Invalid email and/or password. Please try again"
         else:
             error = "Oops! Try that again."
     else:
@@ -60,22 +60,21 @@ def register():
             if(checkEmail(email) and checkPassword(password) and checkPassword(conf_password) and checkAlpha(first_name), checkAlpha(last_name), checkAlpha(username)):
                 if(password == conf_password):
                     if not User.query.filter_by(email = email).first() and not User.query.filter_by(username = username).first():
-                        user = User(username = username, first_name = first_name, last_name = last_name, email = email, password = password, salt = randint(827,18273))
+                        user = User(username = username, first_name = first_name, last_name = last_name, email = email, plain_password = password)
                         db.session.add(user)
                         db.session.commit()
                         return render_template('login.html', message="Success", form = login_Form())
                     else:
-                        error = ""
                         if User.query.filter_by(email = email).first():
                             error += "Email address already exists. "
                         if User.query.filter_by(username = username).first():
                             error += "Username already exists."
                 else: 
-                    error = "Passwords didn't match. Please try again."
+                    error = "ERROR<CODE>: Passwords didn't match. Please try again."
             else:
-                error = "Please check your inputs and try again"
+                error = "ERROR<CODE>: Please check your inputs and try again"
         else:
-            error = "Oops! Try that again."
+            error = "ERROR<CODE>: Oops! Try that again."
     else:
         pass 
     return render_template('register.html', error=error, form=form)

@@ -29,14 +29,12 @@
                 {{ form.username(class="form-control", placeholder="jdoe", value="homerhomer")}}
                 <p class="help-block text-danger">{{ form.email.errors[0]}}</p>
 
-                {{ form.password(class="form-control", placeholder="********")}}
+                {{ form.password(class="form-control", placeholder="Enter a password")}}
                 <p class="help-block text-danger">{{ form.password.errors[0]}}</p>
 
-                {{ form.conf_password(class="form-control", placeholder="********")}}
+                {{ form.conf_password(class="form-control", placeholder="Confirm password")}}
                 <p class="help-block text-danger">{{ form.conf_password.errors[0]}}</p>
-
-                {{ form.recaptcha(class="form-control")}}
-                <p class="help-block text-danger">{{ form.recaptcha.errors[0] }}</p>
+               
               <button class="btn btn-lg btn-primary btn-block btn-signin" type="submit">Register</button>
 
             </form><!-- /form -->
