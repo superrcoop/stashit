@@ -53,7 +53,7 @@ class User(db.Model, UserMixin):
 	def password(self,plain_password):
 		self._password = hashpw(plain_password,gensalt())
  
- 	@hybrid_method
+	@hybrid_method
 	def is_correct_password(self, plain_password):
 		return hashpw(plain_password,self.password)==self.password
 	
