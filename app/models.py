@@ -8,7 +8,7 @@ def generate_id():
     return int(str(uuid.uuid4().int)[:8])
 
 def generate_rcode():
-    return int(str(uuid.uuid4())[:6])
+    return int(str(uuid.uuid4().int)[:6])
 
 class User(db.Model, UserMixin):
 	__tablename__ 	= 'userstable'

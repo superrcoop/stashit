@@ -6,7 +6,7 @@ from random import randint
 from flask import render_template, request, redirect, url_for, flash ,session ,abort
 from .forms import reg_Form,login_Form,forgot_Form,upload_Form, recoverForm, passwordForm
 from werkzeug.utils import secure_filename
-from .controllers import get_uploaded_images, flash_errors, is_safe_url, checkPassword, checkAlpha, checkEmail
+from .controllers import get_uploaded_images, flash_errors, checkPassword, checkAlpha, checkEmail
 from werkzeug.datastructures import CombinedMultiDict
 from models import User
 from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
@@ -32,18 +32,19 @@ def login():
         if form.validate_on_submit():
             email = form.email.data
             password = form.password.data
-            #if(checkPassword(password) and checkEmail(email)):
-            user = User.query.filter_by(email = email).first()
-            if user:
-                if user.is_correct_password(password): 
-                    login_user(user)
-                    return redirect(url_for('dashboard'))
-                else: 
-                    error = 'Invalid password. Please try again.'
+            if checkEmail(email):
+                user = User.query.filter_by(email = email).first()
+                if user:
+                    if user.is_correct_password(password): 
+                        login_user(user)
+                        next_page = request.args.get('next')
+                        return redirect(next_page or url_for('dashboard'))
+                    else: 
+                        error = 'Invalid password. Please try again.'
+                else:
+                    error = 'Email address not found'
             else:
-                error = 'Email address not found'
-            #else:
-            #    error = "Invalid email and/or password. Please try again"
+                error = "Invalid email and/or password. Please try again"
         else:
             error = "Oops! Try that again."
     else:
@@ -65,16 +66,13 @@ def register():
                         db.session.commit()
                         return render_template('login.html', message="Success", form = login_Form())
                     else:
-                        if User.query.filter_by(email = email).first():
-                            error += "Email address already exists. "
-                        if User.query.filter_by(username = username).first():
-                            error += "Username already exists."
+                        error = "Email or username already exists "
                 else: 
-                    error = "ERROR<CODE>: Passwords didn't match. Please try again."
+                    error = "Passwords didn't match. Please try again."
             else:
-                error = "ERROR<CODE>: Please check your inputs and try again"
+                error = "Please check your inputs and try again"
         else:
-            error = "ERROR<CODE>: Oops! Try that again."
+            error = "Oops! Try that again."
     else:
         pass 
     return render_template('register.html', error=error, form=form)
@@ -90,8 +88,7 @@ def recovery():
                 if checkEmail(email):
                     user = User.query.filter_by(email = email).first()
                     if user:
-                        if int(user.recoveryCode) == recovery:
-                            user.recoveryCode = None
+                        if user.checkCode(recovery):
                             db.session.commit()
                             login_user(user)
                             form = passwordForm()
@@ -153,10 +150,9 @@ def changePassword():
             if checkPassword(password) and checkPassword(conf_password):
                 if(password == conf_password):
                     user = current_user
-                    user.changePassword(password)
+                    user.password(password)
                     db.session.commit()
                     return redirect(url_for('logout'))
-
                 else:
                     error = "Passwords did not match, Please try again"
             else:

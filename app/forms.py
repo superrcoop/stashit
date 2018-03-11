@@ -30,7 +30,7 @@ class forgot_Form(FlaskForm):
 
 class recoverForm(FlaskForm):
     email = StringField('Email Address', validators=[Email(message='This is not a valid email'), Length(min=6, max=40,message=('Email does not satisfy condition ( 6 < email.length <= 40 )')),Required('Please provide an email address')])
-    recover = IntegerField('Recovery Pin', validators=[Required()])
+    recover = IntegerField('Recovery Pin', validators=[Required('Please enter your 6-digit recovercode')])
 
 class passwordForm(FlaskForm):
     password = PasswordField('Enter Password',validators=[DataRequired()])
