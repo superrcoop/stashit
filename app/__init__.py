@@ -27,7 +27,7 @@ app.config['MAIL_USE_SSL'] 						= True
 #app.config['BCRYPT_HASH_IDENT'] 				= '2b'
 #app.config['BCRYPT_HANDLE_LONG_PASSWORDS'] 		= False
 
-app.config['SQLALCHEMY_DATABASE_URI'] 			= 'postgresql://postgres:password@localhost/securitydatabase'
+app.config['SQLALCHEMY_DATABASE_URI'] 			= os.environ['DATABASE_URL']
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] 	= True
 
 db = SQLAlchemy(app)
