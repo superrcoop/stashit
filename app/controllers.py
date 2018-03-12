@@ -14,16 +14,14 @@ def get_uploaded_images():
             ls.append(os.path.join(subdir, file).split('/')[-1])
     return ls
 
-# Flash errors from the form if validation fails
+
 def flash_errors(form):
+# Flash errors from the form if validation fails
     for field, errors in form.errors.items():
         for error in errors:
-            flash(u"Error in the %s field - %s" % (
-                getattr(form, field).label.text,
-                error
-), 'danger')
+            flash(u"Error in the %s field - %s" % (getattr(form,field).label.text,error),'danger')
 
-def checkPassword(password): #check both password and conf_password
+def checkPassword(password): #SUGGESTION: check both password and conf_password to increase efficiency
     if not PASSWORD_REGEX.match(password): 
         return False
     return True

@@ -23,9 +23,10 @@ app.config['MAIL_USERNAME'] 					= 'stashit.no.reply@gmail.com'
 app.config['MAIL_PASSWORD'] 					= 'Stashitpassword'
 app.config['MAIL_USE_TLS'] 						= False
 app.config['MAIL_USE_SSL'] 						= True
-#app.config['BCRYPT_LOG_ROUNDS'] 				= 6
+#Using default bcrypt settings
+#app.config['BCRYPT_LOG_ROUNDS'] 				= 12
 #app.config['BCRYPT_HASH_IDENT'] 				= '2b'
-#app.config['BCRYPT_HANDLE_LONG_PASSWORDS'] 		= False
+#app.config['BCRYPT_HANDLE_LONG_PASSWORDS'] 	= False
 
 DATABASE_URL = os.environ['DATABASE_URL']
 app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL

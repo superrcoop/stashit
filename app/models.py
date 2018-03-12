@@ -20,7 +20,7 @@ class User(db.Model, UserMixin):
 	_password		= db.Column(db.String(255),nullable=False)
 	profile_photo 	= db.Column(db.String(80))
 	recoveryCode 	= db.Column(db.Integer,nullable=False)
-	#authenticated   = db.Column(db.Boolean, default=False)
+	authenticated   = db.Column(db.Boolean,default=False,nullable=False)
 
 	def __init__(self, username, first_name, last_name, email, plain_password, profile_photo=None, id=None):
 		if id: 
@@ -34,7 +34,7 @@ class User(db.Model, UserMixin):
 		self.last_name 		= last_name
 		self.profile_photo 	= profile_photo
 		self.recoveryCode 	= generate_rcode()
-		#self.authenticated  = False
+		self.authenticated  = False
 
 	def setRecoveryCode(self):
 		self.recoveryCode = generate_rcode()
@@ -64,7 +64,9 @@ class User(db.Model, UserMixin):
 			return str(self.id)  # python 3 support
 
 	def is_authenticated(self):
-		return True
+		if self.authenticated:
+			return True
+		return False
 
 	def is_active(self):
 		return True

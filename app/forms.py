@@ -17,13 +17,10 @@ class reg_Form(FlaskForm):
     email = StringField('Email Address', validators=[Email(message='This is not a valid email'), Length(min=6, max=40,message=('Email does not satisfy condition ( 6 < email.length <= 40 )')),Required('Please provide an email address')])
     password = PasswordField('Enter Password',validators=[DataRequired()])
     conf_password=PasswordField('Repeat Password',validators=[Required('Re-enter password')])
-    #recaptcha = RecaptchaField()
+    recaptcha = RecaptchaField()
 
 class upload_Form(FlaskForm):
-    upload = FileField('Upload', validators=[
-        FileRequired(),
-        FileAllowed(ALLOWED_EXTENSIONS, 'Images only!')
-    ])
+    upload = FileField('Upload', validators=[FileRequired(),FileAllowed(ALLOWED_EXTENSIONS, 'Images only!')])
 
 class forgot_Form(FlaskForm):
     email = StringField('Email Address', validators=[Email(message='This is not a valid email'), Length(min=6, max=40,message=('Email does not satisfy condition ( 6 < email.length <= 40 )')),Required('Please provide an email address')])

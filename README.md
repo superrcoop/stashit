@@ -22,17 +22,18 @@ Install dependencies:
 
 `$ pip install -r requirements.txt`
 
-Ensure that PostgreSQL database is set up and create your database. Change the database URI (located in `__init__.py`)
+This app is configured with `heroku pg:psql`. 
+To test locally,Ensure that [PostgreSQL](https://www.postgresql.org) is installed and running and configure the database URI located in `__init__.py`
 
-Initilise the database 
+Initilise the database:
 
 `$ python flaskmigrations.py db init`
 
-Migrate the database 
+Migrate the database:
 
 `$ python flaskmigrations.py db migrate`
 
-Upgrade 
+Upgrade the database:
 
 `$ python flaskmigrations.py db upgrade`
 

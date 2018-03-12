@@ -17,23 +17,26 @@
               {% endif %}
           	  {{ form.csrf_token }}
               <span id="reauth-email" class="reauth-email"></span>
-                {{ form.first_name(class="form-control", placeholder="John", value="Homer")}}
+                {{ form.first_name(class="form-control", placeholder="First name")}}
                 <p class="help-block text-danger">{{ form.first_name.errors[0]}}</p>
 
-                {{ form.last_name(class="form-control", placeholder="Doe", value="Simpson")}}
+                {{ form.last_name(class="form-control", placeholder="Last name")}}
                 <p class="help-block text-danger">{{ form.first_name.errors[0]}}</p>
 
-                {{ form.email(class="form-control", placeholder="jdoe@stashit.com", value="hsimpson@yahoo.com")}}
+                {{ form.email(class="form-control", placeholder="example@example.com")}}
                 <p class="help-block text-danger">{{ form.email.errors[0]}}</p>
                 
-                {{ form.username(class="form-control", placeholder="jdoe", value="homerhomer")}}
+                {{ form.username(class="form-control", placeholder="username")}}
                 <p class="help-block text-danger">{{ form.email.errors[0]}}</p>
 
-                {{ form.password(class="form-control", placeholder="Enter a password")}}
+                {{ form.password(class="form-control", placeholder="enter a password")}}
                 <p class="help-block text-danger">{{ form.password.errors[0]}}</p>
 
-                {{ form.conf_password(class="form-control", placeholder="Confirm password")}}
+                {{ form.conf_password(class="form-control", placeholder="re-enter password")}}
                 <p class="help-block text-danger">{{ form.conf_password.errors[0]}}</p>
+
+                {{ form.recaptcha(class="form-control")}}
+                <p class="help-block text-danger">{{ form.recaptcha.errors[0]}}</p>
                
               <button class="btn btn-lg btn-primary btn-block btn-signin" type="submit">Register</button>
 
