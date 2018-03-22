@@ -1,14 +1,27 @@
-import uuid 
+import uuid , datetime , random , os ,errno
 from flask_login import UserMixin
 from sqlalchemy.ext.hybrid import hybrid_property, hybrid_method
 from bcrypt import hashpw, gensalt
-from . import db 
+from . import db ,UPLOAD_FOLDER
 
 def generate_id():
     return int(str(uuid.uuid4().int)[:8])
 
 def generate_rcode():
     return int(str(uuid.uuid4().int)[:6])
+
+def get_date():
+    return datetime.datetime.now().today()
+
+def generate_file_URI():
+    URI=UPLOAD_FOLDER+'/'+str(uuid.uuid4().get_hex()[0:12])+'/'
+    if not os.path.exists(URI):
+        try:
+            os.makedirs(URI)
+        except OSError as e:
+            if e.errno != errno.EEXIST:
+                raise
+    return URI
 
 class User(db.Model, UserMixin):
 	__tablename__ 	= 'userstable'
@@ -18,11 +31,13 @@ class User(db.Model, UserMixin):
 	first_name 		= db.Column(db.String(80))
 	last_name 		= db.Column(db.String(80))
 	_password		= db.Column(db.String(255),nullable=False)
-	profile_photo 	= db.Column(db.String(80))
 	recoveryCode 	= db.Column(db.Integer,nullable=False)
 	authenticated   = db.Column(db.Boolean,default=False,nullable=False)
+	date_joined		= db.Column(db.Date,nullable=False)
+	file_URI 		= db.Column(db.String(80),nullable=False)
 
-	def __init__(self, username, first_name, last_name, email, plain_password, profile_photo=None, id=None):
+
+	def __init__(self, username, first_name, last_name, email, plain_password, id=None):
 		if id: 
 			self.id 		= id
 		else:
@@ -35,6 +50,8 @@ class User(db.Model, UserMixin):
 		self.profile_photo 	= profile_photo
 		self.recoveryCode 	= generate_rcode()
 		self.authenticated  = False
+		self.date_joined    = get_date()
+		self.file_URI       = generate_file_URI()
 
 	def setRecoveryCode(self):
 		self.recoveryCode = generate_rcode()

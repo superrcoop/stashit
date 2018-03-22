@@ -22,24 +22,63 @@ Install dependencies:
 
 `$ pip install -r requirements.txt`
 
+
+Deploy
+--------
+
 This app is configured with `heroku pg:psql`. 
 To test locally,Ensure that [PostgreSQL](https://www.postgresql.org) is installed and running and configure the database URI located in `__init__.py`
 
-Initilise the database:
+Locally: 
 
-`$ python flaskmigrations.py db init`
+~~~~python
+app.config['SQLALCHEMY_DATABASE_URI'] =  '<database_url>'
+~~~~
 
-Migrate the database:
+Run:
 
-`$ python flaskmigrations.py db migrate`
+`$ python run.py`
 
-Upgrade the database:
+Heroku:
 
-`$ python flaskmigrations.py db upgrade`
+Now we'll face some problem regarding migrating. What we'll do is below in order to bypass the problems.
 
-Run the app:
+~~~~
+heroku run python
+>> import os
+>> os.environ.get('DATABASE_URL')
+~~~~
 
-`$ python app.py`
+~~~~python
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ('DATABASE_URL')
+~~~~
 
+Setup database: 
 
+~~~
+python manage.py db init
+python manage.py db migrate
+python manage.py db upgrade
+~~~
+
+Run Heroku app: 
+
+`$ heroku open`
+
+View database from heroku-cli:
+
+~~~
+heroku pg:psql
+
+<heroku-app>::DATABASE=>\c
+You are now connected to database "<heroku_database>" as user "<heroku_database_user>"
+
+<heroku-app>::DATABASE=>\dt
+                  List of relations
+ Schema |      Name       |   Type   |     Owner      
+--------+-----------------+----------+----------------
+ public | alembic_version | table    | tamkdcawqlwozy
+ public | userstable      | table    | tamkdcawqlwozy
+(2 rows)
+~~~
 

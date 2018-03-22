@@ -1,6 +1,7 @@
 import os 
 from flask import flash , request, url_for
 from .models import User
+from .forms import ALLOWED_EXTENSIONS
 from re import compile
 EMAIL_REGEX = compile(r"\"?([-a-zA-Z0-9._?{}]+@\w+\.\w+)\"?")
 PASSWORD_REGEX = compile(r'^([\w!\-#@&%]{8,})$')
@@ -14,6 +15,9 @@ def get_uploaded_images():
             ls.append(os.path.join(subdir, file).split('/')[-1])
     return ls
 
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 def flash_errors(form):
 # Flash errors from the form if validation fails
@@ -35,3 +39,9 @@ def checkEmail(email):
     if not EMAIL_REGEX.match(email):
         return False
     return True
+
+def is_safe_url(target):
+    ref_url = urlparse(request.host_url)
+    test_url = urlparse(urljoin(request.host_url, target))
+    return test_url.scheme in ('http', 'https') and \
+           ref_url.netloc == test_url.netloc

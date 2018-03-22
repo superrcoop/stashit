@@ -1,7 +1,7 @@
 import os
 from time import time
 from flask_mail import Message, Mail
-from app import app, db, mail
+from app import app, db, mail , login_manager
 from random import randint
 from flask import render_template, request, redirect, url_for, flash ,session ,abort
 from .forms import reg_Form,login_Form,forgot_Form,upload_Form, recoverForm, passwordForm
@@ -9,11 +9,7 @@ from werkzeug.utils import secure_filename
 from .controllers import get_uploaded_images, flash_errors, checkPassword, checkAlpha, checkEmail
 from werkzeug.datastructures import CombinedMultiDict
 from .models import User
-from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
-login_manager = LoginManager()
-login_manager.init_app(app)
-login_manager.login_view = 'login'
-
+from flask_login import login_user, logout_user, login_required, current_user
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -243,6 +239,19 @@ def view_files():
         abort(401)
     files = get_uploaded_images()
     return render_template('recents.html', files = files)
+
+
+###
+# The functions below should be applicable to all Flask apps.
+###
+
+
+@app.route('/<file_name>.txt')
+def send_text_file(file_name):
+    """Send your static text file."""
+    file_dot_text = file_name + '.txt'
+    return app.send_static_file(file_dot_text)
+
 
 @app.errorhandler(404)
 def page_not_found(error):

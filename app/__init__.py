@@ -2,13 +2,20 @@ from flask import Flask
 from flask_sqlalchemy  import SQLAlchemy
 from flask_mail import Mail
 import os , psycopg2
+from flask_login import LoginManager
+
+
+app = Flask(__name__)
+app.config.from_object(__name__)# Flask-Login login manager
+
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = 'login'
+login_manager.session_protection = "strong"
 
 UPLOAD_FOLDER = './app/static/uploads'
 
 
-app = Flask(__name__)
-
-app.config.from_object(__name__)
 app.config['UPLOAD_FOLDER'] 					= UPLOAD_FOLDER
 app.config['RECAPTCHA_USE_SSL'] 				= True
 app.config['RECAPTCHA_PUBLIC_KEY'] 				= '6LcVT0oUAAAAAHC2ThJf4cyndvFBb5blLhqhYxNE'
