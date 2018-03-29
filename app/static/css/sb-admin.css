@@ -459,3 +459,31 @@ footer.sticky-footer {
     width: calc(100% - 55px);
   }
 }
+
+
+.upload-drop-zone {
+  height: 200px;
+  border-width: 2px;
+  margin-bottom: 20px;
+}
+
+.upload-drop-zone {
+  color: #ccc;
+  border-style: dashed;
+  border-color: #ccc;
+  line-height: 200px;
+  text-align: center
+}
+.upload-drop-zone.drop {
+  color: #222;
+  border-color: #222;
+}
+
+
+.form-inline .form-group { margin-right:10px; }
+.well-primary {
+color: rgb(255, 255, 255);
+background-color: rgb(66, 139, 202);
+border-color: rgb(53, 126, 189);
+}
+.glyphicon { margin-right:5px; }

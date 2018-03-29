@@ -2,34 +2,128 @@
 
 {% block main %}
 
-{% with messages = get_flashed_messages() %}
-         {% if messages %}
-            <ul>
-               {% for message in messages %}
-               <li<{{ message }}</li>
-               {% endfor %}
-            </ul>
-         {% endif %}
-      {% endwith %}
-      
-  <div class="container h-100">
-
-        <div class="card card-container">
-            <p id="profile-name" class="profile-name-card">Upload file</p>
-
-            <form class="form-signin" action="{{url_for('login')}}" method="post">
-              {{ upload_form.csrf_token }}
-                {{ upload_form.upload.label(class="text-secondary")}}<br>
-                {{ upload_form.upload(class="form-control" ,placeholder="Upload file")}}
-                
-                <button class="btn btn-lg btn-primary btn-block btn-signin" type="submit">Upload</button>
-            </form><!-- /form -->
-            <a href="{{url_for('dashboard')}}" class="forgot-password">
-                Go back
-            </a><br>
+{% if error %}
+          <div class="alert alert-danger" role="alert">
+            {{ error }}
+          </div>
+        {% endif %}
+        {% if message %}
+          <div class="alert alert-success" role="alert">
+            {{ message }}
+          </div>
+        {% endif %}
+   <div class="row">
+  <div class="col-lg-12">
+    <!-- Card Columns Example Social Feed-->
+    <div class="mb-0 mt-4">
+      <i class="fas fa-upload"></i> Upload File(s) | <small><i class="fas fa-lock"></i> Secure Stashit.website file-upload</small></div>
+    <hr class="mt-2">
+<div class="panel-group" id="accordion">
+                <div class="panel panel-default "><a data-toggle="collapse" data-parent="#accordion" href="#collapseOne"><i class="fas fa-caret-down"></i> Password
+    <hr class="mt-2"></a></div>
+    <div id="collapseOne" class="panel-collapse collapse in">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-4 list-inline">
+                                    <div class="form-group ">
+                                     
+                                    <form class="form-signin" action="{{url_for('upload')}}" method="post">
+          {{ form2.csrf_token }}
+          <input type="text" class="form-control" placeholder="Title" required /><br>
             
-        </div><!-- /card-container -->
-    </div><!-- /container -->
-</header>
+          {{ form2.password(class="form-control", placeholder="Enter a new password")}}<br>
+          {{ form2.conf_password(class="form-control", placeholder="Re-enter password")}}<br>
+
+            <button class="btn btn-sm btn-primary btn-signin" type="submit">Save</button>
+        </form><!-- /form -->
+
+                                    
+                                </div>
+                            </div>
+                            </div>
+                            
+                        </div>
+                      </div>
+                        <div class="panel panel-default "><a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo"><i class="fas fa-caret-down"></i> Url
+    <hr class="mt-2"></a></div>
+    <div id="collapseTwo" class="panel-collapse collapse in">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                       <form class="form-signin" action="{{url_for('upload')}}" method="post">
+          {{ form3.csrf_token }}
+            
+          {{ form3.url(class="form-control", placeholder="https://...")}}<br>
+
+            <button class="btn btn-sm btn-primary btn-signin" type="submit">Save</button>
+        </form><!-- /form -->
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            
+                        </div>
+                    </div>
+                    <div class="panel panel-default "><a data-toggle="collapse" data-parent="#accordion" href="#collapseThree"><i class="fas fa-caret-down"></i> Documents
+    <hr class="mt-2"></a></div>
+    <div id="collapseThree" class="panel-collapse collapse in">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                       <form action="{{url_for('upload')}}" method="post" enctype="multipart/form-data" id="js-upload-form">
+            {{ form4.csrf_token }}
+            <div class="form-group">
+              <div class="">
+                {{ form4.upload(class="btn-sm btn" ,id="js-upload-files")}}
+              </div>
+              <small>File extensions allowed: Documents('txt','pdf')</small><br>
+              </div>
+              <button type="submit" class="btn btn-sm btn-primary" id="js-upload-submit">Upload files</button>
+          </form>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            
+                        </div>
+                    </div>
+                    <div class="panel panel-default "><a data-toggle="collapse" data-parent="#accordion" href="#collapseFour"><i class="fas fa-caret-down"></i> Images
+    <hr class="mt-2"></a></div>
+    <div id="collapseFour" class="panel-collapse collapse in">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                          
+          <form action="{{url_for('upload')}}" method="post" enctype="multipart/form-data" id="js-upload-form">
+            {{ form.csrf_token }}
+            <div class="form-group">
+              <div class="">
+                {{ form.upload(class="btn-sm btn" ,id="js-upload-files")}}
+              </div>
+              <small>File extensions allowed: Images('.png', '.jpg', '.jpeg', '.gif')</small><br>
+              </div>
+              <button type="submit" class="btn btn-sm btn-primary" id="js-upload-submit">Upload files</button>
+          </form>
+   
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            
+                        </div>
+                    </div>
+                    
+                  </div>
+
+  
+    
+      </div>
+    </div>
+
+
+            
 
     {%endblock%}

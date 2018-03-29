@@ -44,10 +44,13 @@ Heroku:
 Now we'll face some problem regarding migrating. What we'll do is below in order to bypass the problems.
 
 ~~~~
-heroku run python
+$ heroku run python
 >> import os
 >> os.environ.get('DATABASE_URL')
+'<DATABASE_URL>'
 ~~~~
+
+`$ export DATABASE_URL=<DATABASE_URL>`
 
 ~~~~python
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ('DATABASE_URL')
@@ -56,9 +59,9 @@ app.config['SQLALCHEMY_DATABASE_URI'] = os.environ('DATABASE_URL')
 Setup database: 
 
 ~~~
-python manage.py db init
-python manage.py db migrate
-python manage.py db upgrade
+$ python manage.py db init
+$ python manage.py db migrate
+$ python manage.py db upgrade
 ~~~
 
 Run Heroku app: 
@@ -68,7 +71,7 @@ Run Heroku app:
 View database from heroku-cli:
 
 ~~~
-heroku pg:psql
+$ heroku pg:psql
 
 <heroku-app>::DATABASE=>\c
 You are now connected to database "<heroku_database>" as user "<heroku_database_user>"
@@ -77,8 +80,8 @@ You are now connected to database "<heroku_database>" as user "<heroku_database_
                   List of relations
  Schema |      Name       |   Type   |     Owner      
 --------+-----------------+----------+----------------
- public | alembic_version | table    | tamkdcawqlwozy
- public | userstable      | table    | tamkdcawqlwozy
+ public | alembic_version | table    | <owner_name>
+ public | userstable      | table    | <owner_name>
 (2 rows)
 ~~~
 

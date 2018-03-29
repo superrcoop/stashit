@@ -331,44 +331,35 @@ section.contact ul.list-social {
 
 section.contact ul.list-social li a {
   font-size: 40px;
-  line-height: 50px;
+  padding: 10px;
   display: block;
-  width: 50px;
-  height: 50px;
   color: white;
-  border-radius: 100%;
 }
 
-section.contact ul.list-social li.social-twitter a {
-  background-color: #1da1f2;
+section.contact li.twitter a:hover {
+  font-size: 50px;
+  color: #00aced;
+  display:relative;
 }
 
-section.contact ul.list-social li.social-twitter a:hover {
-  background-color: #0d95e8;
+section.contact li.github a:hover {
+  font-size: 50px;
+  color: #6e5494;
+  display:relative;
 }
-
-section.contact ul.list-social li.social-facebook a {
-  background-color: #3b5998;
+section.contact li.rss a:hover {
+  font-size: 50px;
+  color: #f26522;
+  display:relative;
 }
-
-section.contact ul.list-social li.social-facebook a:hover {
-  background-color: #344e86;
-}
-
-section.contact ul.list-social li.social-google-plus a {
-  background-color: #dd4b39;
-}
-
-section.contact ul.list-social li.social-github a {
-  background-color: grey;
-}
-
-section.contact ul.list-social li.social-github a:hover {
-  background-color: #d73925;
+section.contact li.mail a:hover {
+  font-size: 50px;
+  color:#08851b;
+  display:relative;
 }
 
 footer {
-  padding: 25px 0;
+  padding: 5px ;
   text-align: center;
   color: rgba(255, 255, 255, 0.3);
   background-color: #222222;
@@ -388,9 +379,7 @@ footer ul li a {
   color: rgba(255, 255, 255, 0.3);
 }
 
-footer ul li a:hover, footer ul li a:focus, footer ul li a:active, footer ul li a.active {
-  text-decoration: none;
-}
+
 
 .bg-primary {
   background: #fdcc52;

@@ -47,7 +47,6 @@ class User(db.Model, UserMixin):
 		self.password 		= plain_password
 		self.first_name 	= first_name 
 		self.last_name 		= last_name
-		self.profile_photo 	= profile_photo
 		self.recoveryCode 	= generate_rcode()
 		self.authenticated  = False
 		self.date_joined    = get_date()
@@ -59,6 +58,7 @@ class User(db.Model, UserMixin):
 	def checkCode(self, code):
 		if code == self.recoveryCode:
 			self.setRecoveryCode
+			self.authenticated=True
 			return True
 		return False
 

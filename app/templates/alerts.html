@@ -1,0 +1,31 @@
+{% extends "dashboard.html" %}
+
+{% block title %}Template Not Found{% endblock %}
+{% block css %}
+<style type="text/css">
+  body { padding-top: 70px; }
+</style>
+{% endblock %}
+
+{% block main %}
+
+{% if error %}
+	<div class="alert alert-danger" role="alert">
+	{{ error }}
+	</div>
+	{% endif %}
+	{% if message %}
+	<div class="alert alert-success" role="alert">
+	{{ message }}
+	</div>
+	{% endif %}
+<div class="row">
+	<div class="col-lg-12">
+		<!-- Card Columns Example Social Feed-->
+		<div class="mb-0 mt-4">
+			<i class="fas fa-bell"></i> Alerts</div>
+		<hr class="mt-2">
+</div>
+</div>
+
+{% endblock %}
